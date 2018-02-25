@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\components\Chartline.tsx" />
     <None Remove="ClientApp\components\HelloWorld.tsx" />
   </ItemGroup>
 

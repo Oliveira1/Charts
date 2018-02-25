@@ -5,7 +5,7 @@ import { ApplicationState }  from '../store';
 import * as CounterStore from '../store/Counter';
 import * as WeatherForecasts from '../store/WeatherForecasts';
 
-type CounterProps =
+type CounterProps = 
     CounterStore.CounterState
     & typeof CounterStore.actionCreators
     & RouteComponentProps<{}>;
