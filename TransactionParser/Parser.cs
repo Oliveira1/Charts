@@ -14,8 +14,8 @@ namespace TransactionParser
         public static IEnumerable<TransactionEntry> GetEntries()
         {
 
-            //string filename = @"C:\Users\Me\Downloads\mycsv.csv";
-            var filename = @"C:\Users\bruno.paixao\Downloads\mycsv.csv";
+           string filename = @"C:\Users\Me\Downloads\mycsv.csv";
+           // var filename = @"C:\Users\bruno.paixao\Downloads\mycsv.csv";
 
             var builder = new StringBuilder();
 
