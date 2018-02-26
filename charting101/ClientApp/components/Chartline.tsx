@@ -15,6 +15,7 @@ type TransactionEntryProps =
     & typeof TransactionEntriesState.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
 
+var total= 0;
 
 const data = [
     { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
@@ -28,30 +29,30 @@ const data = [
 
 class Chartline extends React.Component<TransactionEntryProps, {}> {
 
-
     componentWillMount() {
         // This method runs when the component is first added to the page
         let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
         this.props.requestTransactionEntries(startDateIndex);
+        total = this.props.entries.length;
     }
 
     componentWillReceiveProps(nextProps: TransactionEntryProps) {
         // This method runs when incoming props (e.g., route params) change
         let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
         this.props.requestTransactionEntries(startDateIndex);
+        total = this.props.entries.length;
     }
     
     public render() {
         return (
-            <LineChart width={600} height={300} data={data}
+            <LineChart width={900} height={300} data={this.props.entries}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <XAxis dataKey="name" />
-                <YAxis />
+                <XAxis dataKey="date"/>
+                <YAxis type="number" domain={['dataMin', 'dataMax']} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="saldo" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 2 }} activeDot={{ r: 8 }} />
             </LineChart>
         );
     }
