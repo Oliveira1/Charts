@@ -45,14 +45,14 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
     
     public render() {
         return (
-            <LineChart width={900} height={300} data={this.props.entries}
+            <LineChart width={2800} height={900} data={this.props.entries}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <XAxis dataKey="date"/>
-                <YAxis type="number" domain={['dataMin', 'dataMax']} />
+                <XAxis interval={0} dataKey="date"/>
+                <YAxis interval={0} type="number" domain={['dataMin', 'dataMax']} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="saldo" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 2 }} activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="saldo" stroke="#8884d8" dot={true} label={{ fill: 'red', fontSize: 20 }}  />
             </LineChart>
         );
     }
