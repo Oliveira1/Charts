@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using charting101.Services;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace charting101.Controllers
 {
@@ -14,9 +15,14 @@ namespace charting101.Controllers
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
+        private static TransactionEntryService TransactionEntryService;
+        public SampleDataController(IMemoryCache cache)
+        {
+            TransactionEntryService= new TransactionEntryService(cache);
 
+        }
         //need to add a Service locator
-        private static TransactionEntryService TransactionEntryService=new TransactionEntryService();
+        
 
         [HttpGet("[action]")]
         public IEnumerable<WeatherForecast> WeatherForecasts(int startDateIndex)
