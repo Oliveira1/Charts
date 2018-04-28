@@ -14,7 +14,8 @@ namespace TransactionParser
         public static IEnumerable<TransactionEntry> GetEntries()
         {
 
-           string filename = @"C:\Users\Me\Downloads\mycsv.csv";
+           //string filename = @"C:\Users\Me\Downloads\mycsv.csv";
+            string filename = @"C:\Users\Me\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV";
            // var filename = @"C:\Users\bruno.paixao\Downloads\mycsv.csv";
 
             var builder = new StringBuilder();
@@ -24,7 +25,7 @@ namespace TransactionParser
                 var entries = new List<TransactionEntry>();
                 var parser = new CsvReader(reader);
                 parser.Configuration.RegisterClassMap<EntriesMap>();
-                parser.Configuration.Delimiter = ";";
+                parser.Configuration.Delimiter = ",";
                 parser.Configuration.Encoding = Encoding.UTF8;
                 var id = 0;
                 while (parser.Read())
