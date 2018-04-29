@@ -6,7 +6,6 @@ import { AppThunkAction } from './';
 // STATE - This defines the type of data maintained in the Redux store.
 
 export interface TransactionEntriesState {
-    isLoading: boolean;
     startDateIndex?: number;
     entries: TransactionEntry[];
 }
@@ -65,7 +64,7 @@ export const actionCreators = {
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
 
-const unloadedState: TransactionEntriesState = { entries: [], isLoading: false };
+const unloadedState: TransactionEntriesState = { entries: [] };
 
 export const reducer: Reducer<TransactionEntriesState> = (state: TransactionEntriesState, incomingAction: Action) => {
     const action = incomingAction as KnownAction;
@@ -74,7 +73,6 @@ export const reducer: Reducer<TransactionEntriesState> = (state: TransactionEntr
             return {
                 startDateIndex: action.startDateIndex,
                 entries: state.entries,
-                isLoading: true
             };
         case 'RECEIVE_TRANSACTION_ENTRIES':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly
@@ -83,7 +81,6 @@ export const reducer: Reducer<TransactionEntriesState> = (state: TransactionEntr
                 return {
                     startDateIndex: action.startDateIndex,
                     entries: action.entries,
-                    isLoading: false
                 };
             }
             break;

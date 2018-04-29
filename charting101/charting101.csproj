@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\components\ChartButton.tsx" />
+    <None Remove="ClientApp\components\ChartElement.tsx" />
     <None Remove="ClientApp\components\Chartline.tsx" />
     <None Remove="ClientApp\components\HelloWorld.tsx" />
   </ItemGroup>
@@ -30,6 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\ChartElement.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\ChartButton.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Chartline.tsx" />
     <TypeScriptCompile Include="ClientApp\components\HelloWorld.tsx" />
   </ItemGroup>
