@@ -25,28 +25,49 @@ namespace charting101.Services
         /// <returns></returns>
         public IEnumerable<TransactionEntry> GetEntriesByDate()
         {
-            var transactions = entries?.OrderBy(e => { return e.Date; }).ToLookup(t => t.Date.Year).ToLookup(t => t.ToLookup(e => e.Date.Month));
+            //var transactions = entries?.OrderBy(e => { return e.Date; }).ToLookup( => t.Date.Year).ToLookup(t => t.ToLookup(e => e.Date.Month));
+            var tran = entries?.OrderBy(e => { return e.Date; }).ToLookup(t => new DateTime(t.Date.Year, t.Date.Month, 1));
 
-            return cache.GetOrCreate("August", cacheEntry =>
-             {
-                return entries?.OrderBy(e => { return e.Date; }).ToList()
-                    .ConvertAll(
+            foreach (var k in tran)
+            {
+                cache.GetOrCreate(k.Key, cacheEntry =>
+                {
+                    return k.ToList().ConvertAll(
                     (e) =>
-                    {
-                        return new TransactionEntry
                         {
-                            Amount = e.Amount,
-                            ID = e.ID,
-                            Date = e.Date.ToShortDateString(),
-                            OpDate = e.OpDate.ToShortDateString(),
-                            Description = e.Description,
-                            Currency = e.Currency,
-                            Saldo = e.Saldo,
-                            Cur = e.Cur
+                            return new TransactionEntry
+                            {
+                                Amount = e.Amount,
+                                ID = e.ID,
+                                Date = e.Date.ToShortDateString(),
+                                OpDate = e.OpDate.ToShortDateString(),
+                                Description = e.Description,
+                                Currency = e.Currency,
+                                Saldo = e.Saldo,
+                                Cur = e.Cur
+                        
+                            };
+                     }) ?? new List<TransactionEntry>();
+                });
+            }
+            return entries?.OrderBy(e => { return e.Date; }).ToList()
+                     .ConvertAll(
+                     (e) =>
+                     {
+                         return new TransactionEntry
+                         {
+                             Amount = e.Amount,
+                             ID = e.ID,
+                             Date = e.Date.ToShortDateString(),
+                             OpDate = e.OpDate.ToShortDateString(),
+                             Description = e.Description,
+                             Currency = e.Currency,
+                             Saldo = e.Saldo,
+                             Cur = e.Cur
 
-                        };
-                    }) ?? new List<TransactionEntry>();
-             });
+                         };
+                     }) ?? new List<TransactionEntry>();
+
         }
     }
 }
