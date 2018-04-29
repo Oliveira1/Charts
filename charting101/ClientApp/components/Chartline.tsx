@@ -47,7 +47,7 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
         return (
             <LineChart width={2800} height={900} data={this.props.entries}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <XAxis interval={0} dataKey="date"/>
+                <XAxis interval={0} dataKey="week"/>
                 <YAxis interval={0} type="number" domain={['dataMin', 'dataMax']} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
