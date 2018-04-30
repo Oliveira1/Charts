@@ -9,29 +9,20 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "r
 import { ApplicationState } from '../store';
 import Chartline from "./Chartline";
 import ChartButton from "./ChartButton";
+import * as TransactionEntriesState from '../store/TransactionEntries';
+
+type TransactionEntryProps =
+    TransactionEntriesState.TransactionEntriesState       // ... state we've requested from the Redux store
+    & typeof TransactionEntriesState.actionCreators      // ... plus action creators we've requested
+    & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
 
 
-class ChartElement extends React.Component{
+export default class ChartElement extends React.Component<TransactionEntryProps,{}>{
 
-    componentWillMount() {
-        // This method runs when the component is first added to the page
-        //let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
-        //this.props.requestTransactionEntries(startDateIndex);
-
-    }
-    
     public render() {
-        return <div>
-                    <Chartline />
-                    <ChartButton />
+        return ( <div>
                 </div>
+        )
     }
 
 }
-
-/*
-export default connect(
-    (state: ApplicationState) => state.transactionEntries, // Selects which state properties are merged into the component's props
-    TransactionEntriesState.actionCreators                 // Selects which action creators are merged into the component's props
-)(ChartElement) as typeof ChartElement;
-*/

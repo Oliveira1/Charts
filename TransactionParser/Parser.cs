@@ -15,8 +15,9 @@ namespace TransactionParser
         {
 
            //string filename = @"C:\Users\Me\Downloads\mycsv.csv";
-            string filename = @"C:\Users\Me\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV";
-           // var filename = @"C:\Users\bruno.paixao\Downloads\mycsv.csv";
+          //string filename = @"C:\Users\Me\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV";
+            string filename = @"C:\Users\bruno.paixao\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV";
+            // var filename = @"C:\Users\bruno.paixao\Downloads\mycsv.csv";
 
             var builder = new StringBuilder();
 

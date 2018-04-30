@@ -3,7 +3,7 @@
 // https://github.com/Microsoft/TypeScript/wiki/JSX
 
 import * as React from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Link,RouteComponentProps } from "react-router-dom";
 import { connect } from 'react-redux';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { ApplicationState } from '../store';
@@ -45,6 +45,7 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
     
     public render() {
         return (
+            <div>
             <LineChart width={2800} height={900} data={this.props.entries}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <XAxis interval={0} dataKey="week"/>
@@ -54,8 +55,24 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
                 <Legend />
                 <Line type="monotone" dataKey="saldo" stroke="#8884d8" dot={true} label={{ fill: 'red', fontSize: 20 }}  />
             </LineChart>
+
+             {this.renderPagination()}
+            </div>
+
         );
     }
+
+    private renderPagination() {
+        let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
+        let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
+
+        return <p className='clearfix text-center'>
+            <Link className='btn btn-default pull-left' to={`/fetchtransaction/${prevStartDateIndex}`}>Previous</Link>
+            <Link className='btn btn-default pull-right' to={`/fetchtransaction/${nextStartDateIndex}`}>Next</Link>
+        </p>;
+    }
+
+    
 
 
 }
