@@ -25,6 +25,7 @@
     <None Remove="ClientApp\components\ChartElement.tsx" />
     <None Remove="ClientApp\components\Chartline.tsx" />
     <None Remove="ClientApp\components\HelloWorld.tsx" />
+    <None Remove="ClientApp\store\EntryKeys.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,7 @@
     <TypeScriptCompile Include="ClientApp\components\ChartButton.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Chartline.tsx" />
     <TypeScriptCompile Include="ClientApp\components\HelloWorld.tsx" />
+    <TypeScriptCompile Include="ClientApp\store\EntryKeys.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
