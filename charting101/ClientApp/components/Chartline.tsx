@@ -8,11 +8,15 @@ import { connect } from 'react-redux';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { ApplicationState } from '../store';
 import * as TransactionEntriesState from '../store/TransactionEntries';
+import * as EntryKeysState from '../store/EntryKeys';
+import { bindActionCreators } from 'redux';
+
 
 // At runtime, Redux will merge together...
 type TransactionEntryProps =
-    TransactionEntriesState.TransactionEntriesState       // ... state we've requested from the Redux store
-    & typeof TransactionEntriesState.actionCreators      // ... plus action creators we've requested
+    ApplicationState       // ... state we've requested from the Redux store
+    & typeof TransactionEntriesState.actionCreators
+    & typeof EntryKeysState.actionCreators  // ... plus action creators we've requested
     & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
 
 var total= 0;
@@ -27,18 +31,21 @@ const data = [
     { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-class Chartline extends React.Component<TransactionEntryProps, {}> {
+class Chartline extends React.Component<any, any> {
 
     componentWillMount() {
         // This method runs when the component is first added to the page
         let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
-        this.props.requestTransactionEntries(startDateIndex);
+        console.log("COCO", this.props.actions.counterActions.requestTransactionEntries(0));
+        console.log("AHN", this.props.transactionEntries);
+        this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
         total = this.props.entries.length;
     }
 
-    componentWillReceiveProps(nextProps: TransactionEntryProps) {
+    componentWillReceiveProps(nextProps: any) {
         // This method runs when incoming props (e.g., route params) change
         let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
+        console.log("AHN", this.props.transactionEntries);
         this.props.requestTransactionEntries(startDateIndex);
         total = this.props.entries.length;
     }
@@ -77,7 +84,15 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
 
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            todoActions: bindActionCreators(EntryKeysState.actionCreators, dispatch),
+            counterActions: bindActionCreators(TransactionEntriesState.actionCreators, dispatch)
+        }
+    };
+}
 export default connect(
-    (state: ApplicationState) => state.transactionEntries, // Selects which state properties are merged into the component's props
-    TransactionEntriesState.actionCreators                 // Selects which action creators are merged into the component's props
+    (state: ApplicationState) => state, // Selects which state properties are merged into the component's props
+    mapDispatchToProps                 // Selects which action creators are merged into the component's props
 )(Chartline) as typeof Chartline;
