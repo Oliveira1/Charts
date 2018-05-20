@@ -2,49 +2,49 @@
 import { Link,RouteComponentProps } from "react-router-dom";
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
-import * as TransactionEntriesState from '../store/TransactionEntries';
+import * as EntryKeysState from '../store/EntryKeys';
 
 // At runtime, Redux will merge together...
-type TransactionEntryProps =
-    TransactionEntriesState.TransactionEntriesState       // ... state we've requested from the Redux store
-    & typeof TransactionEntriesState.actionCreators      // ... plus action creators we've requested
-    & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
+type EntryKeyProps =
+    EntryKeysState.EntryKeysState // ... state we've requested from the Redux store
+    & typeof EntryKeysState.actionCreators      // ... plus action creators we've requested
+    & RouteComponentProps<{keys: string }>; // ... plus incoming routing parameters
 
 
-class ChartButton extends React.Component<TransactionEntryProps, {}> {
+class ChartButton extends React.Component<EntryKeyProps, {}> {
 
     componentWillMount() {
         // This method runs when the component is first added to the page
-        let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
-        this.props.requestTransactionEntries(startDateIndex);
+        this.props.requestEntryKeys();
       
     }
 
-    componentWillReceiveProps(nextProps: TransactionEntryProps) {
+    componentWillReceiveProps(nextProps: EntryKeyProps) {
         // This method runs when incoming props (e.g., route params) change
-        let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
-        this.props.requestTransactionEntries(startDateIndex);
+        this.props.requestEntryKeys();
     }
 
     public render() {
         return <div>
+            
             {this.renderPagination()}
         </div>
     }
 
-    private renderPagination() {
-        let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
-        let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
 
+    private renderPagination() {
+        let prevStartDateIndex = 5;
+        let nextStartDateIndex = 5;
+        console.log(this.props.keys);
+        const listItems = this.props.keys.map((k) =>
+            <Link className='btn btn-default' to={`/fetchtransaction/${prevStartDateIndex}`}>{new Date(k).toLocaleString("pt-pt", {year:"numeric", month: "long" })}</Link>)
         return <p className='clearfix text-center'>
-            <Link className='btn btn-default pull-left' to={`/fetchtransaction/${prevStartDateIndex}`}>Previous</Link>
-            <Link className='btn btn-default pull-right' to={`/fetchtransaction/${nextStartDateIndex}`}>Next</Link>
+            {listItems}
         </p>;
     }
 
 }
-
 export default connect(
-    (state: ApplicationState) => state.transactionEntries, // Selects which state properties are merged into the component's props
-    TransactionEntriesState.actionCreators                 // Selects which action creators are merged into the component's props
+    (state: ApplicationState) => state.transactionKeys, // Selects which state properties are merged into the component's props
+    EntryKeysState.actionCreators                 // Selects which action creators are merged into the component's props
 )(ChartButton) as typeof ChartButton;

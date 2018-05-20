@@ -8,6 +8,7 @@ import Hello from './components/HelloWorld';
 import ChartElement from './components/ChartElement';
 import FetchTransaction from './components/FetchTransaction';
 import Chartline from './components/Chartline';
+import ChartButton from './components/ChartButton';
 
 
 
@@ -18,6 +19,8 @@ export const routes = <Layout>
     <Route path='/fetchtransaction/:stateDateIndex?' component={FetchTransaction} />
     <Route path='/helloWorld' render={() => <Hello comp="ME" />} />
     <Route path='/chart' component={Chartline} />
+    <Route path='/buttons' component={ ChartButton } />
+
 </Layout>;
 
 

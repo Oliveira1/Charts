@@ -8,91 +8,57 @@ import { connect } from 'react-redux';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { ApplicationState } from '../store';
 import * as TransactionEntriesState from '../store/TransactionEntries';
-import * as EntryKeysState from '../store/EntryKeys';
 import { bindActionCreators } from 'redux';
 
-
-// At runtime, Redux will merge together...
 type TransactionEntryProps =
-    ApplicationState       // ... state we've requested from the Redux store
-    & typeof TransactionEntriesState.actionCreators
-    & typeof EntryKeysState.actionCreators  // ... plus action creators we've requested
-    & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
+    TransactionEntriesState.TransactionEntriesState       // ... state we've requested from the Redux store
+    & typeof TransactionEntriesState.actionCreators      // ... plus action creators we've requested
+    & RouteComponentProps<{ startDateIndex: string }>; 
 
 var total= 0;
+var entries = [] as any;
 
-const data = [
-    { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
-    { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
-    { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
-    { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-    { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
-    { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
-    { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
-];
-
-class Chartline extends React.Component<any, any> {
+class Chartline extends React.Component<TransactionEntryProps, {}> {
 
     componentWillMount() {
         // This method runs when the component is first added to the page
         let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
-        console.log("COCO", this.props.actions.counterActions.requestTransactionEntries(0));
-        console.log("AHN", this.props.transactionEntries);
-        this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
-        total = this.props.entries.length;
+       // console.log("COCO", this.props.actions.counterActions.requestTransactionEntries(0));
+        //console.log("AHN", this.props.transactionEntries);
+
+        //this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
+        this.props.requestTransactionEntries(startDateIndex);
+        //entries = this.props.transactionEntries.entries;
+        entries = this.props.entries;
+        total = entries.length;
+        
     }
 
-    componentWillReceiveProps(nextProps: any) {
+    componentWillReceiveProps(nextProps: TransactionEntryProps) {
         // This method runs when incoming props (e.g., route params) change
         let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
-        console.log("AHN", this.props.transactionEntries);
-        this.props.requestTransactionEntries(startDateIndex);
-        total = this.props.entries.length;
+        //console.log("AHN", this.props.transactionEntries);
+        //this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
+        //entries = this.props.transactionEntries.entries; dot={true} label={{ fill: 'red', fontSize: 20 }}  />
+        entries = this.props.entries;
+        total = entries.length;
     }
     
     public render() {
         return (
-            <div>
-            <LineChart width={2800} height={900} data={this.props.entries}
+                <LineChart width={2800} height={900} data={entries}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <XAxis interval={0} dataKey="week"/>
+                <XAxis interval={0} dataKey="date"/>
                 <YAxis interval={0} type="number" domain={['dataMin', 'dataMax']} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="saldo" stroke="#8884d8" dot={true} label={{ fill: 'red', fontSize: 20 }}  />
+                <Line type="monotone" dataKey="saldo" stroke="#8884d8" /> 
             </LineChart>
-
-             {this.renderPagination()}
-            </div>
-
         );
     }
-
-    private renderPagination() {
-        let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
-        let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
-
-        return <p className='clearfix text-center'>
-            <Link className='btn btn-default pull-left' to={`/fetchtransaction/${prevStartDateIndex}`}>Previous</Link>
-            <Link className='btn btn-default pull-right' to={`/fetchtransaction/${nextStartDateIndex}`}>Next</Link>
-        </p>;
-    }
-
-    
-
-
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: {
-            todoActions: bindActionCreators(EntryKeysState.actionCreators, dispatch),
-            counterActions: bindActionCreators(TransactionEntriesState.actionCreators, dispatch)
-        }
-    };
 }
 export default connect(
-    (state: ApplicationState) => state, // Selects which state properties are merged into the component's props
-    mapDispatchToProps                 // Selects which action creators are merged into the component's props
+    (state: ApplicationState) => state.transactionEntries, // Selects which state properties are merged into the component's props
+    TransactionEntriesState.actionCreators                 // Selects which action creators are merged into the component's props
 )(Chartline) as typeof Chartline;

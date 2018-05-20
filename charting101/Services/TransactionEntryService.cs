@@ -29,7 +29,22 @@ namespace charting101.Services
         /// <returns></returns>
         public IEnumerable<TransactionEntry> GetEntriesByDate()
         {
-            
+            return entriesLookUp[new DateTime(2017,12,1)].ToList().ConvertAll(
+                     (e) =>
+                     {
+                         return new TransactionEntry
+                         {
+                             Amount = e.Amount,
+                             ID = e.ID,
+                             Date = e.Date.ToShortDateString(),
+                             OpDate = e.OpDate.ToShortDateString(),
+                             Description = e.Description,
+                             Currency = e.Currency,
+                             Saldo = e.Saldo,
+                             Cur = e.Cur
+
+                         };
+                     }) ?? new List<TransactionEntry>();
             return entries?.OrderBy(e => { return e.Date; }).ToList()
                      .ConvertAll(
                      (e) =>
