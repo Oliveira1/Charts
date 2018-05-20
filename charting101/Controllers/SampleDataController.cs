@@ -54,7 +54,10 @@ namespace charting101.Controllers
 
 
         [HttpGet("[action]")]
-        public IEnumerable<TransactionEntry> TransactionEntries(int startDateIndex) => TransactionEntryService.GetEntriesByDate();
+        public IEnumerable<TransactionEntry> TransactionEntries(DateTime startDateIndex) => TransactionEntryService.GetEntriesByDate(startDateIndex);
+
+        [HttpGet("[action]")]
+        public IEnumerable<TransactionEntry> GetTransactionsMonth(DateTime startDateIndex) => TransactionEntryService.GetEntriesByDate(startDateIndex);
 
         [HttpGet("[action]")]
         public IEnumerable<DateTime> GetKeys() => TransactionEntryService.GetKeys();

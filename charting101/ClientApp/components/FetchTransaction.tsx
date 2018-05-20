@@ -8,19 +8,19 @@ import * as TransactionEntriesState from '../store/TransactionEntries';
 type TransactionEntryProps =
     TransactionEntriesState.TransactionEntriesState       // ... state we've requested from the Redux store
     & typeof TransactionEntriesState.actionCreators      // ... plus action creators we've requested
-    & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
+    & RouteComponentProps<{ startDateIndex: Date }>; // ... plus incoming routing parameters
 
 class FetchTransaction extends React.Component<TransactionEntryProps, {}> {
     componentWillMount() {
-        // This method runs when the component is first added to the page
-        let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
-        this.props.requestTransactionEntries(startDateIndex);
+        // This method runs when the component is first added to the page parseInt(this.props.match.params.startDateIndex) 
+        let startDateIndex = 0;
+        this.props.requestTransactionEntries(new Date(Date.now.toString()));
     }
 
     componentWillReceiveProps(nextProps: TransactionEntryProps) {
-        // This method runs when incoming props (e.g., route params) change
-        let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
-        this.props.requestTransactionEntries(startDateIndex);
+        // This method runs when incoming props (e.g., route params) change parseInt(nextProps.match.params.startDateIndex) || 
+        let startDateIndex = 0;
+        this.props.requestTransactionEntries(new Date(Date.now.toString()));
     }
 
     public render() {
@@ -58,8 +58,8 @@ class FetchTransaction extends React.Component<TransactionEntryProps, {}> {
     }
 
     private renderPagination() {
-        let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
-        let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
+        let prevStartDateIndex =0 //(this.props.startDateIndex || 0) - 5;
+        let nextStartDateIndex =5 //(this.props.startDateIndex || 0) + 5;
 
         return <p className='clearfix text-center'>
             <Link className='btn btn-default pull-left' to={ `/fetchtransaction/${ prevStartDateIndex }` }>Previous</Link>

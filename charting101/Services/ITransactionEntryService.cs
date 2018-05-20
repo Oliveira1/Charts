@@ -7,7 +7,7 @@ namespace charting101.Services
 {
     interface ITransactionEntryService
     {
-        IEnumerable<TransactionEntry> GetEntriesByDate();
+        IEnumerable<TransactionEntry> GetEntriesByDate(DateTime month);
     }
 
 

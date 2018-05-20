@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux';
 type TransactionEntryProps =
     TransactionEntriesState.TransactionEntriesState       // ... state we've requested from the Redux store
     & typeof TransactionEntriesState.actionCreators      // ... plus action creators we've requested
-    & RouteComponentProps<{ startDateIndex: string }>; 
+    & RouteComponentProps<{ startDateIndex: Date }>; 
 
 var total= 0;
 var entries = [] as any;
@@ -22,8 +22,8 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
 
     componentWillMount() {
         // This method runs when the component is first added to the page
-        let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
-       // console.log("COCO", this.props.actions.counterActions.requestTransactionEntries(0));
+        let startDateIndex = this.props.match.params.startDateIndex
+       // console.log("COCO", this.props.actions.counterActions.requestTransactionEntries(0)) = parseInt(this.props.match.params.startDateIndex) || 0;;
         //console.log("AHN", this.props.transactionEntries);
 
         //this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
@@ -36,8 +36,8 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
 
     componentWillReceiveProps(nextProps: TransactionEntryProps) {
         // This method runs when incoming props (e.g., route params) change
-        let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
-        //console.log("AHN", this.props.transactionEntries);
+        let startDateIndex 
+        //console.log("AHN", this.props.transactionEntries); = parseInt(nextProps.match.params.startDateIndex) || 0;
         //this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
         //entries = this.props.transactionEntries.entries; dot={true} label={{ fill: 'red', fontSize: 20 }}  />
         entries = this.props.entries;

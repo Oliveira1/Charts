@@ -37,7 +37,7 @@ class ChartButton extends React.Component<EntryKeyProps, {}> {
         let nextStartDateIndex = 5;
         console.log(this.props.keys);
         const listItems = this.props.keys.map((k) =>
-            <Link className='btn btn-default' to={`/fetchtransaction/${prevStartDateIndex}`}>{new Date(k).toLocaleString("pt-pt", {year:"numeric", month: "long" })}</Link>)
+            <Link className='btn btn-default' to={`/fetchtransaction/${k}`}>{new Date(k).toLocaleString("pt-pt", {year:"numeric", month: "long" })}</Link>)
         return <p className='clearfix text-center'>
             {listItems}
         </p>;
