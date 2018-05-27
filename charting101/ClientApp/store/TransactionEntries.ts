@@ -48,8 +48,11 @@ type KnownAction = RequestTransactionEntriesAction | ReceiveTransactionEntriesAc
 export const actionCreators = {
     requestTransactionEntries: (startDateIndex: Date): AppThunkAction<KnownAction> => (dispatch, getState) => {
         // Only load data if it's something we don't already have (and are not already loading)
-        if (startDateIndex !== getState().transactionEntries.startDateIndex) {
-            let fetchTask = fetch(`api/SampleData/TransactionEntries?startDateIndex=${ startDateIndex }`)
+        //let stateDate : any;
+        let stateDate =getState().transactionEntries.startDateIndex ;
+        if (!stateDate || ( startDateIndex.getUTCDate() !== stateDate.getUTCDate() && startDateIndex.getUTCMonth()!== stateDate.getUTCMonth() && startDateIndex.getUTCFullYear() !== stateDate.getUTCFullYear() )) {
+            let dt=startDateIndex;
+            let fetchTask = fetch(`api/SampleData/TransactionEntries?startDateIndex=${ dt.toISOString() }`)
                 .then(response => response.json() as Promise<TransactionEntry[]>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_TRANSACTION_ENTRIES', startDateIndex: startDateIndex, entries: data });

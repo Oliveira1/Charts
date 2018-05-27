@@ -28,6 +28,7 @@ namespace charting101.Controllers
         public IEnumerable<WeatherForecast> WeatherForecasts(int startDateIndex)
         {
             var rng = new Random();
+            
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 DateFormatted = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
@@ -42,13 +43,7 @@ namespace charting101.Controllers
             public int TemperatureC { get; set; }
             public string Summary { get; set; }
 
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
+            public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
         }
 
 

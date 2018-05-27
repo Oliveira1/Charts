@@ -13,14 +13,14 @@ type TransactionEntryProps =
 class FetchTransaction extends React.Component<TransactionEntryProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page parseInt(this.props.match.params.startDateIndex) 
-        let startDateIndex = 0;
-        this.props.requestTransactionEntries(new Date(Date.now.toString()));
+        let startDateIndex = this.props.match.params.startDateIndex || new Date();
+        this.props.requestTransactionEntries(startDateIndex);
     }
 
     componentWillReceiveProps(nextProps: TransactionEntryProps) {
         // This method runs when incoming props (e.g., route params) change parseInt(nextProps.match.params.startDateIndex) || 
-        let startDateIndex = 0;
-        this.props.requestTransactionEntries(new Date(Date.now.toString()));
+        let startDateIndex = this.props.match.params.startDateIndex || new Date();
+        this.props.requestTransactionEntries(startDateIndex);
     }
 
     public render() {
@@ -28,7 +28,6 @@ class FetchTransaction extends React.Component<TransactionEntryProps, {}> {
             <h1>Monthly transactions</h1>
             <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
             { this.renderEntriesTable() }
-            { this.renderPagination() }
         </div>;
     }
 
@@ -40,7 +39,7 @@ class FetchTransaction extends React.Component<TransactionEntryProps, {}> {
                     <th>Data</th>
                     <th>Quantidade</th>
                     <th>Saldo</th>
-                    <th>Descrição</th>
+                    <th>Descriï¿½ï¿½o</th>
                 </tr>
             </thead>
             <tbody>
