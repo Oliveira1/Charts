@@ -13,13 +13,13 @@ type TransactionEntryProps =
 class FetchTransaction extends React.Component<TransactionEntryProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page parseInt(this.props.match.params.startDateIndex) 
-        let startDateIndex = this.props.match.params.startDateIndex || new Date();
+        let startDateIndex = this.props.match.params.startDateIndex || new Date().toISOString();
         this.props.requestTransactionEntries(startDateIndex);
     }
 
     componentWillReceiveProps(nextProps: TransactionEntryProps) {
         // This method runs when incoming props (e.g., route params) change parseInt(nextProps.match.params.startDateIndex) || 
-        let startDateIndex = this.props.match.params.startDateIndex || new Date();
+        let startDateIndex = this.props.match.params.startDateIndex || new Date().toISOString();
         this.props.requestTransactionEntries(startDateIndex);
     }
 

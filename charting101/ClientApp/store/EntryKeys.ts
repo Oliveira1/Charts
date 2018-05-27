@@ -32,17 +32,19 @@ type KnownAction = RequestEntryKeysAction | ReceiveEntryKeysAction;
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    requestEntryKeys: (): AppThunkAction<KnownAction> => (dispatch) => {
+    requestEntryKeys: (): AppThunkAction<KnownAction> => (dispatch,getState) => {
         // Only load data if it's something we don't already have (and are not already loading)
         //if (startDateIndex !== getState().weatherForecasts.startDateIndex) {
-        let fetchTask = fetch(`api/SampleData/GetKeys`)
-            .then(response => response.json() as Promise<Date[]>)
-            .then(data => {
-                dispatch({ type: 'RECEIVE_ENTRY_KEYS', keys: data });
-            });
+        if (getState().transactionKeys.keys.length == 0) {
+            let fetchTask = fetch(`api/SampleData/GetKeys`)
+                .then(response => response.json() as Promise<Date[]>)
+                .then(data => {
+                    dispatch({type: 'RECEIVE_ENTRY_KEYS', keys: data});
+                });
 
-        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
-        dispatch({ type: 'REQUEST_ENTRY_KEYS' });
+            addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
+            dispatch({type: 'REQUEST_ENTRY_KEYS'});
+        }
     }
 };
 
@@ -55,15 +57,20 @@ const unloadedState: EntryKeysState= { keys: [] };
 export const reducer: Reducer<EntryKeysState> = (state: EntryKeysState, incomingAction: Action) => {
     const action = incomingAction as KnownAction;
     switch (action.type) {
+        case 'REQUEST_ENTRY_KEYS':
+            return {keys:state.keys};
     case 'RECEIVE_ENTRY_KEYS':
-        // Only accept the incoming data if it matches the most recent request. This ensures we correctly
-        // handle out-of-order responses.
+       
+            // Only accept the incoming data if it matches the most recent request. This ensures we correctly
+            // handle out-of-order responses.
             return {
-                keys:action.keys
+                keys: action.keys
             };
+
+
     default:
         // The following line guarantees that every action in the KnownAction union has been covered by a case above
-       // const exhaustiveCheck: never = action;
+        //const exhaustiveCheck: never = action;
     }
 
     return state || unloadedState;

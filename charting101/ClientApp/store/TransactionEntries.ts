@@ -50,9 +50,10 @@ export const actionCreators = {
         // Only load data if it's something we don't already have (and are not already loading)
         //let stateDate : any;
         let stateDate =getState().transactionEntries.startDateIndex ;
-        if (!stateDate || ( startDateIndex.getUTCDate() !== stateDate.getUTCDate() && startDateIndex.getUTCMonth()!== stateDate.getUTCMonth() && startDateIndex.getUTCFullYear() !== stateDate.getUTCFullYear() )) {
-            let dt=startDateIndex;
-            let fetchTask = fetch(`api/SampleData/TransactionEntries?startDateIndex=${ dt.toISOString() }`)
+        let sd=new Date(stateDate || new Date());
+        let sdi=new Date(startDateIndex);
+        if (sdi.getUTCMonth()!== sd.getUTCMonth() || sdi.getUTCFullYear() !== sd.getUTCFullYear() ) {
+            let fetchTask = fetch(`api/SampleData/TransactionEntries?startDateIndex=${ sdi.toISOString() }`)
                 .then(response => response.json() as Promise<TransactionEntry[]>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_TRANSACTION_ENTRIES', startDateIndex: startDateIndex, entries: data });

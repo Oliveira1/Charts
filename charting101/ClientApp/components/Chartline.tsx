@@ -22,7 +22,7 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
 
     componentWillMount() {
         // This method runs when the component is first added to the page
-        let startDateIndex = this.props.match.params.startDateIndex || new Date();
+        let startDateIndex = this.props.match.params.startDateIndex || new Date().toISOString();
        // console.log("COCO", this.props.actions.counterActions.requestTransactionEntries(0)) = parseInt(this.props.match.params.startDateIndex) || 0;;
         //console.log("AHN", this.props.transactionEntries);
 
@@ -36,7 +36,7 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
 
     componentWillReceiveProps(nextProps: TransactionEntryProps) {
         // This method runs when incoming props (e.g., route params) change
-        let startDateIndex = nextProps.match.params.startDateIndex || new Date();
+        let startDateIndex = nextProps.match.params.startDateIndex || new Date().toISOString();
         //console.log("AHN", this.props.transactionEntries); = parseInt(nextProps.match.params.startDateIndex) || 0;
         //this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
         //entries = this.props.transactionEntries.entries; dot={true} label={{ fill: 'red', fontSize: 20 }}  />

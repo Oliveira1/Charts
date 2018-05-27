@@ -27,23 +27,20 @@ namespace charting101.Services
         /// //var transactions = entries?.OrderBy(e => { return e.Date; }).ToLookup( => t.Date.Year).ToLookup(t => t.ToLookup(e => e.Date.Month));
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<TransactionEntry> GetEntriesByDate(DateTime month)
+        public IEnumerable<TransactionEntry> GetEntriesByDate(DateTime date)
         {
-            return entriesLookUp[new DateTime(2017,12,1)].ToList().ConvertAll(
-                     (e) =>
+            return entriesLookUp[new DateTime(date.Year,date.Month,1)].ToList().ConvertAll(
+                     (e) => new TransactionEntry
                      {
-                         return new TransactionEntry
-                         {
-                             Amount = e.Amount,
-                             ID = e.ID,
-                             Date = e.Date.ToShortDateString(),
-                             OpDate = e.OpDate.ToShortDateString(),
-                             Description = e.Description,
-                             Currency = e.Currency,
-                             Saldo = e.Saldo,
-                             Cur = e.Cur
+                         Amount = e.Amount,
+                         ID = e.ID,
+                         Date = e.Date.ToShortDateString(),
+                         OpDate = e.OpDate.ToShortDateString(),
+                         Description = e.Description,
+                         Currency = e.Currency,
+                         Saldo = e.Saldo,
+                         Cur = e.Cur
 
-                         };
                      }) ?? new List<TransactionEntry>();
             return entries?.OrderBy(e => { return e.Date; }).ToList()
                      .ConvertAll(

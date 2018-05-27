@@ -16,7 +16,7 @@ export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/counter' component={ Counter } />
     <Route path='/fetchdata/:startDateIndex?' component={FetchData} />
-    <Route path='/fetchtransaction/:stateDateIndex?' component={FetchTransaction} />
+    <Route path='/fetchtransaction/:startDateIndex?' component={FetchTransaction} />
     <Route path='/helloWorld' render={() => <Hello comp="ME" />} />
     <Route path='/chart' component={Chartline} />
     <Route path='/buttons' component={ ChartButton } />
