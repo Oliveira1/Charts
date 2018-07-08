@@ -9,7 +9,7 @@ namespace charting101.Services
         {
             var beginDate = Convert.ToDateTime(begin.Date);
             var endDate = Convert.ToDateTime(end.Date);
-            if (beginDate < endDate)
+            if (beginDate > endDate)
             {
                 var t = begin;
                 begin = end;
@@ -17,8 +17,8 @@ namespace charting101.Services
                 endDate = Convert.ToDateTime(end.Date);
                 beginDate = Convert.ToDateTime(begin.Date);
             }
-            var increase=end.Amount - begin.Amount;
-            var percentage = increase / begin.Amount * 100;
+            var increase=end.Saldo - begin.Saldo;
+            var percentage = increase / begin.Saldo* 100;
             return new PercentageChange()
             {
                 AbsoluteIncrease = increase,
@@ -32,7 +32,7 @@ namespace charting101.Services
         {
             var beginDate = Convert.ToDateTime(begin.Date);
             var endDate = Convert.ToDateTime(end.Date);
-            if (beginDate < endDate)
+            if (beginDate > endDate)
             {
                 var t = begin;
                 begin = end;
@@ -41,12 +41,11 @@ namespace charting101.Services
                 beginDate = Convert.ToDateTime(begin.Date);
             }
 
-            var period = endDate.Month - beginDate.Month + 1;
-
+            var period = endDate.Month - beginDate.Month;
+            if (period == 0) period = 1;
             if(periodType.Equals('w')) period *= 4; //TODO add enum with numbers and add this directly to formula.
             if (periodType.Equals('y')) period /= 12;
-
-            return Math.Pow((end.Amount / begin.Amount), 1 / period) - 1;
+            return (Math.Pow((end.Saldo / begin.Saldo),(double) 1 / period) - 1)*100;
         }
     }
 
