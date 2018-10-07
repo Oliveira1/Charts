@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { NavMenu } from './NavMenu';
+import ChartElement from "./ChartElement";
 
 export class Layout extends React.Component {
     public render() {

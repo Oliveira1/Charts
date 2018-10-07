@@ -21,7 +21,13 @@ namespace charting101
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {   
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
             services.AddMvc();
             services.AddMemoryCache();
         }
@@ -31,6 +37,7 @@ namespace charting101
         {
             if (env.IsDevelopment())
             {
+                app.UseCors("MyPolicy");
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {

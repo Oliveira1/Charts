@@ -10,6 +10,7 @@ import configureStore from './configureStore';
 import { ApplicationState }  from './store';
 import * as RoutesModule from './routes';
 import * as HelloWorld from './components/HelloWorld';
+import ChartElement from "./components/ChartElement";
 
 
 let routes = RoutesModule.routes;
@@ -30,6 +31,7 @@ function renderApp() {
         <AppContainer>
             <Provider store={ store }>
                 <ConnectedRouter history={ history } children={ routes } />
+                <ChartElement store= { store:ApplicationState}/>
             </Provider>
         </AppContainer>,
         document.getElementById('react-app')

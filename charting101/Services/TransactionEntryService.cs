@@ -29,13 +29,28 @@ namespace charting101.Services
         /// <returns></returns>
         public IEnumerable<TransactionEntry> GetEntriesByDate(DateTime date)
         {
+            if(date.Date==DateTime.MinValue.Date) return entries?.Skip(1).ToList()
+                                                .ConvertAll(
+                                                    e => new TransactionEntry
+                                                    {
+                                                        Amount = e.Amount,
+                                                        ID = e.ID,
+                                                        Date = e.Date.ToString("o"),
+                                                        OpDate = e.OpDate.ToString("o"),
+                                                        Description = e.Description,
+                                                        Currency = e.Currency,
+                                                        Saldo = e.Saldo,
+                                                        Cur = e.Cur
+
+                                                    }) ?? new List<TransactionEntry>();
+                
             return entriesLookUp[new DateTime(date.Year,date.Month,1)].ToList().ConvertAll(
-                     (e) => new TransactionEntry
+                     e => new TransactionEntry
                      {
                          Amount = e.Amount,
                          ID = e.ID,
-                         Date = e.Date.ToShortDateString(),
-                         OpDate = e.OpDate.ToShortDateString(),
+                         Date = e.Date.ToString("o"),
+                         OpDate = e.OpDate.ToString("o"),
                          Description = e.Description,
                          Currency = e.Currency,
                          Saldo = e.Saldo,

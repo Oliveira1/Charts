@@ -18,31 +18,33 @@ type TransactionEntryProps =
 var total= 0;
 var entries = [] as any;
 
-class Chartline extends React.Component<TransactionEntryProps, {}> {
+export default class Chartline extends React.Component<ApplicationState,{}> {
 
     componentWillMount() {
+        console.log(this.props);
         // This method runs when the component is first added to the page
-        let startDateIndex = this.props.match.params.startDateIndex || new Date().toISOString();
+        //let startDateIndex = this.props.match.params.startDateIndex || new Date().toISOString();
        // console.log("COCO", this.props.actions.counterActions.requestTransactionEntries(0)) = parseInt(this.props.match.params.startDateIndex) || 0;;
         //console.log("AHN", this.props.transactionEntries);
 
         //this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
-        this.props.requestTransactionEntries(startDateIndex);
+       //this.props.requestTransactionEntries(startDateIndex);
         //entries = this.props.transactionEntries.entries;
-        entries = this.props.entries;
+       // entries = this.props.entries;
         total = entries.length;
         
     }
 
-    componentWillReceiveProps(nextProps: TransactionEntryProps) {
+    componentWillReceiveProps(nextProps: ApplicationState) {
+        console.log(nextProps);
         // This method runs when incoming props (e.g., route params) change
-        let startDateIndex = nextProps.match.params.startDateIndex || new Date().toISOString();
+     //   let startDateIndex = nextProps.match.params.startDateIndex || new Date().toISOString();
         //console.log("AHN", this.props.transactionEntries); = parseInt(nextProps.match.params.startDateIndex) || 0;
         //this.props.actions.counterActions.requestTransactionEntries(startDateIndex);
         //entries = this.props.transactionEntries.entries; dot={true} label={{ fill: 'red', fontSize: 20 }}  />
-        this.props.requestTransactionEntries(startDateIndex);
-        entries = this.props.entries;
-        total = entries.length;
+        //this.props.requestTransactionEntries(startDateIndex);
+        //entries = this.props.entries;
+        //total = entries.length;
     }
     
     public render() {
@@ -59,7 +61,9 @@ class Chartline extends React.Component<TransactionEntryProps, {}> {
         );
     }
 }
+/*
 export default connect(
     (state: ApplicationState) => state.transactionEntries, // Selects which state properties are merged into the component's props
     TransactionEntriesState.actionCreators                 // Selects which action creators are merged into the component's props
 )(Chartline) as typeof Chartline;
+*/

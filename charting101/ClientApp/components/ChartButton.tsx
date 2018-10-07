@@ -11,17 +11,17 @@ type EntryKeyProps =
     & RouteComponentProps<{keys: string }>; // ... plus incoming routing parameters
 
 
-class ChartButton extends React.Component<EntryKeyProps, {}> {
+export default class ChartButton extends React.Component<ApplicationState, {}> {
 
     componentWillMount() {
         // This method runs when the component is first added to the page
-        this.props.requestEntryKeys();
+        //this.props.requestEntryKeys();
       
     }
 
-    componentWillReceiveProps(nextProps: EntryKeyProps) {
+    componentWillReceiveProps(nextProps: ApplicationState) {
         // This method runs when incoming props (e.g., route params) change
-        this.props.requestEntryKeys();
+      //  this.props.requestEntryKeys();
     }
 
     public render() {
@@ -35,8 +35,8 @@ class ChartButton extends React.Component<EntryKeyProps, {}> {
     private renderPagination() {
         let prevStartDateIndex = 5;
         let nextStartDateIndex = 5;
-        console.log(this.props.keys);
-        const listItems = this.props.keys.map((k) =>
+        console.log(this.props);
+        const listItems = this.props.transactionKeys.keys.map((k) =>
             <Link className='btn btn-default' to={`/fetchtransaction/${k}`}>{new Date(k).toLocaleString("pt-pt", {year:"numeric", month: "long" })}</Link>)
         return <p className='clearfix text-center'>
             {listItems}
@@ -44,7 +44,9 @@ class ChartButton extends React.Component<EntryKeyProps, {}> {
     }
 
 }
+/*
 export default connect(
     (state: ApplicationState) => state.transactionKeys, // Selects which state properties are merged into the component's props
     EntryKeysState.actionCreators                 // Selects which action creators are merged into the component's props
 )(ChartButton) as typeof ChartButton;
+*/

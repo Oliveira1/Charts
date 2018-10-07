@@ -2,6 +2,7 @@ import { fetch, addTask } from 'domain-task';
 import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
 
+
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
 

@@ -36,6 +36,13 @@ namespace TransactionParser
                     entries.Add(entry);
                     id++;
                 }
+
+                var tEntry = new TransactionEntry()
+                {
+                    Amount = 0, Cur = "e", Currency = "e", Date = DateTime.MinValue, Description = "e", ID = -1,
+                    OpDate = DateTime.MinValue, Saldo = 0
+                };
+                entries.Add(tEntry);
                 return entries;
             }
 
