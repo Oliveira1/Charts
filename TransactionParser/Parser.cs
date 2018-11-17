@@ -14,38 +14,50 @@ namespace TransactionParser
         public static IEnumerable<TransactionEntry> GetEntries()
         {
 
-           //string filename = @"C:\Users\Me\Downloads\mycsv.csv";
-          string filename = @"C:\Users\Me\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV";
-          //  string filename = @"C:\Users\bruno.paixao\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV";
+            //string filename = @"C:\Users\Me\Downloads\mycsv.csv";
+            //string[] filenames = new []{ @"C:\Users\Me\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV" };
+             string[] filenames = new[] { @"C:\Users\Me\Downloads\ExtractosDO_218100009859_20181001_20181031.CSV" };
+            //  string filename = @"C:\Users\bruno.paixao\Downloads\ExtractosDO_218100009859_20170101_20180401.CSV";
             // var filename = @"C:\Users\bruno.paixao\Downloads\mycsv.csv";
+            //string[] filenames = Directory.GetFiles(@"C:\Users\Me\Downloads\", @"ExtractosDO_*.CSV");
+            StringBuilder builder = new StringBuilder();
+            List<TransactionEntry> entries = new List<TransactionEntry>();
 
-            var builder = new StringBuilder();
-
-            using (var reader = File.OpenText(filename))
+            foreach (string filename in filenames)
             {
-                var entries = new List<TransactionEntry>();
-                var parser = new CsvReader(reader);
-                parser.Configuration.RegisterClassMap<EntriesMap>();
-                parser.Configuration.Delimiter = ",";
-                parser.Configuration.Encoding = Encoding.UTF8;
-                var id = 0;
-                while (parser.Read())
+                Console.WriteLine(filename);
+                using (StreamReader reader = File.OpenText(filename))
                 {
-                    var entry = parser.GetRecord<TransactionEntry>();
-                    entry.ID = id;
-                    entries.Add(entry);
-                    id++;
+
+                    CsvReader parser = new CsvReader(reader);
+                    parser.Configuration.RegisterClassMap<EntriesMap>();
+                    parser.Configuration.Delimiter = ";";
+                    parser.Configuration.Encoding = Encoding.UTF8;
+                    int id = 0;
+                    while (parser.Read())
+                    {
+                        TransactionEntry entry = parser.GetRecord<TransactionEntry>();
+                        entry.ID = id;
+                        entries.Add(entry);
+                        id++;
+                        Console.WriteLine(entry.Date);
+                    }
+                    
+                    TransactionEntry tEntry = new TransactionEntry()
+                    {
+                        Amount = 0,
+                        Cur = "e",
+                        Currency = "e",
+                        Date = DateTime.MinValue,
+                        Description = "e",
+                        ID = -1,
+                        OpDate = DateTime.MinValue,
+                        Saldo = 0
+                    };
+                    entries.Add(tEntry);
                 }
-
-                var tEntry = new TransactionEntry()
-                {
-                    Amount = 0, Cur = "e", Currency = "e", Date = DateTime.MinValue, Description = "e", ID = -1,
-                    OpDate = DateTime.MinValue, Saldo = 0
-                };
-                entries.Add(tEntry);
-                return entries;
             }
-
+            return entries;
         }
 
 
@@ -70,7 +82,7 @@ namespace TransactionParser
         {
             return row =>
             {
-                var amount = row.GetField(index);
+                string amount = row.GetField(index);
                 if (amount.Contains(".") && amount.Contains(","))
                 {
                     amount = amount.Replace(".", "");
